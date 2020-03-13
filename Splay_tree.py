@@ -4,6 +4,13 @@ class Node:
     self.parent = None
     self.left = None
     self.right = None
+    self.size=1
+    self.adjacent_nodes=[None,None]
+    self.sum_adjacent_nodes=[None,None]
+
+  def update(self):
+
+
 
 class SplayTree:
   def __init__(self):
