@@ -51,6 +51,10 @@ class Tree:
 		if self.ds.findset(self.nodes[u])==self.ds.findset(self.nodes[v]):
 			return True
 		return False
+	def __str__(self):
+		for i in range(len(self.nodes)):
+			print(self.nodes[i],self.adj[i])
+		return ""
 
 def main():
 	T=Tree()
@@ -64,6 +68,9 @@ def main():
 	T.link(0,3)
 	T.link(3,4)
 	T.cut(0,3)
+	T.link(0,4)
+	T.cut(4,0)
+	print(T)
 	print(T.is_connected(0,4))
 
 main()

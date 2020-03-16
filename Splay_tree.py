@@ -28,7 +28,7 @@ class SplayTree:
 
   def next_in_sequence(self,x):
 
-    temp=x.right;
+    temp=x.right
     if(temp==None):
       return temp
     while(temp.left!=None):
