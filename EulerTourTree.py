@@ -50,7 +50,7 @@ class EulerTourTree:
             del self.IDtoNode[u]
         else:
             ##TODO get 1st element of the set
-            next=self.NodeSet[u].begin()
+            next=self.NodeSet[u].begin()#change here
             BinarySearchTree().change_root(nn)
             next.adjacent_nodes[0]=n0
             next.adjacent_nodes[1]=n1
