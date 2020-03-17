@@ -199,6 +199,3 @@ class BinarySearchTree:
         p.update()
         nn.update()
         pass
-    def __str__(self):
-        if()
- def main():
