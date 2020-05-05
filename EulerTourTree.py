@@ -189,6 +189,9 @@ class EulerTourTree:
         pass
 
     def update_adjacent(self,u,add_adj,is_treeedge):
+        # print(self.adj_map[is_treeedge])
+        if self.adj_map[is_treeedge].get(u)==None:
+            self.adj_map[is_treeedge][u]=0
         self.adj_map[is_treeedge][u]+=add_adj
         x=self.__get_node(u)
         if(not x):
@@ -198,25 +201,31 @@ class EulerTourTree:
         x.update()
         pass
 
-# def main():
-#         e = EulerTourTree();
-#         e.link(1,2);
-#         e.link(2,3);
-#         e.link(1,4);
+def main():
+        e = EulerTourTree();
+        e.link(1,2);
+        e.link(2,3);
+        e.link(1,4);
 
-#         e.link(5,6);
-#         e.link(6,7);
-#         e.link(5,8);
-#         print("Size\n")
-#         for i in range(1,8):
-#             print(str(i)+" : "+str(e.size(i)))
-#         print(e.link(1,5))
-#         print("IS connedcted:",e.is_connected(1,5))
-#         for i in range(1,8):
-#             print(str(i)+" : "+str(e.size(i)))
-#         print(e.cut(1,5))
-#         print("IS connedcted:",e.is_connected(1,5))
+        e.cut(1,4)
+
+        e.link(5,6);
+        e.link(6,7);
+        e.link(5,8);
+
+        print(e.get_adjacent(1,True))
+
+        # print(e.is_connected(2,4))
+        # print("Size\n")
+        # for i in range(1,8):
+        #     print(str(i)+" : "+str(e.size(i)))
+        # print(e.link(1,5))
+        # print("IS connedcted:",e.is_connected(1,5))
+        # for i in range(1,8):
+        #     print(str(i)+" : "+str(e.size(i)))
+        # print(e.cut(1,5))
+        # print("IS connedcted:",e.is_connected(1,5))
        
-#         for i in range(1,8):
-#             print(str(i)+" : "+str(e.size(i)))
-# main()
+        # for i in range(1,8):
+        #     print(str(i)+" : "+str(e.size(i)))
+main()

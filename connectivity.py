@@ -1,15 +1,17 @@
 from EulerTourTree import EulerTourTree as Tree
 from collections import defaultdict
-def multi_dict():
-	return defaultdict(lambda: multi_dict(1, int))
+def multi_dict(K):
+	if K == 1: 
+	        return defaultdict(int) 
+	return defaultdict(lambda: multi_dict(K-1))
 class Connect:
 
 	def __init__(self):
 		self.vertices=set()
 		self.spf=[]
 		self.adj = [{}]
-		self.treeadj = multi_dict()
-		self.edge_level=multi_dict()
+		self.treeadj = multi_dict(2)
+		self.edge_level=multi_dict(2)
 		self.exists={}
 
 	def add_vertex(self,u):
@@ -35,7 +37,7 @@ class Connect:
 	def delete_edge(self,u,v):
 		if self.exists.get(u)==None or self.exists.get(v)==None:
 			return False
-		lvl = self.level(u,v)
+		lvl = (self.level(u,v))[0]
 		if lvl ==-1 :
 			return False
 		if not(self.spf[0].cut(u,v)):
@@ -52,6 +54,7 @@ class Connect:
 				v=t 
 			while True:
 				x=self.spf[i].get_adjacent(u,True)
+				print(x)
 				if x==-1:
 					break
 				while len(self.treeadj[i][x])>0:
@@ -95,22 +98,26 @@ class Connect:
 		self.edge_level[(u,v)].append(level)
 
 		if is_treeedge:
-			if self.treeadj[level][u]==None:
+			# print("level u",self.treeadj[level][u])
+			if self.treeadj[level][u]==0:
 				self.treeadj[level][u]=[v]
 			else:
+
 				self.treeadj[level][u].append(v)
-			if self.treeadj[level][v]==None:
+			# print("level v",self.treeadj[level][v])
+			if self.treeadj[level][v]==0:
 				self.treeadj[level][v]=[u]
 			else:
 				self.treeadj[level][v].append(u)
 
 			# pass
 		else :
-			if self.adj[level][u]==None:
+			# print(self.adj[level])
+			if self.adj[level].get(u)==None:
 				self.adj[level][u]=[v]
 			else:
 				self.adj[level][u].append(v)
-			if self.adj[level][v]==None:
+			if self.adj[level].get(v)==None:
 				self.adj[level][v]=[u]
 			else:
 				self.adj[level][v].append(u)
@@ -126,9 +133,14 @@ class Connect:
 			t=u
 			u=v
 			v=t
+		# print(self.edge_level[(u,v)] , level)
+		# level=level[0]
 		self.edge_level[(u,v)].remove(level)
-
+		# print(self.edge_level[(u,v)])
+		# level=level[0]
+		# print("level=",level)
 		if is_treeedge:
+			# print(self.treeadj[level][u])
 			self.treeadj[level][u].remove(v)
 			self.treeadj[level][v].remove(u)
 		else :
@@ -147,13 +159,19 @@ class Connect:
 		# self.edge_level[[u,v]]
 		if self.edge_level.get((u,v))==None:
 			return -1 
-		return self.edge_level[[u,v]]
+		return self.edge_level[(u,v)]
 
 def main():
 	o = Connect()
 	o.add_vertex(0)
 	o.add_vertex(1)
+	o.add_vertex(2)
 	o.add_edge(0,1)
-	# print(o.is_connected(0,1))
+	o.add_edge(1,2)
+	o.add_edge(0,2)
+	o.delete_edge(0,1)
+	# o.add_edge(0,1)
+	# print(o.adj , o.treeadj)
+	# print(o.spf[0])
 	# o.delete_edge(0,1)
 main()
