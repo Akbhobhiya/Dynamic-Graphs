@@ -5,37 +5,43 @@ class EulerTourTree:
         self.IDtoNode={}
         #<int,set<node*>>
         self.NodeSet={}
-        #<pair<int,int>,node*,hash_pair>
+        #<pair<int,int>,node*>
         self.edgemap={}
         #<int,int>
         self.adj_map=[{},{}]
     
 
-
+    #return node params:int u
     def __get_node(self,u):
         if(not self.IDtoNode.get(u)):
             return None
         return self.IDtoNode[u]
         pass
 
-    ##TODO Check
+    #return node params:int u int v
     def __get_edge(self,u,v):
         p=(u,v)
         it=self.edgemap.get(p)
-        if(it==self.edgemap.end()):#TODO change to get last element of the dictionary.Although doesnt make sense as the cpp code has an unordered map
+        if(not it):
             return None
-        return it[1]
+        return it
         pass
+
+    #return void params:int u node nn
     def __add_node(self,u,nn):
         BinarySearchTree().change_root(nn)
+        if(not self.NodeSet.get(u)):
+            self.NodeSet[u]=set()
         self.NodeSet[u].add(nn)
         if(not self.IDtoNode.get(u)):
             self.IDtoNode[u]=nn
-            nn.adjacent_nodes[0]=self.adj_map[0][u]
-            nn.adjacent_nodes[1]=self.adj_map[1][u]
+            if( u in self.adj_map[0] and u in self.adj_map[1]) :
+                nn.adjacent_nodes[0]=self.adj_map[0][u]
+                nn.adjacent_nodes[1]=self.adj_map[1][u]
         nn.update()
         pass
 
+    #return void params:int u int v node nn
     def __add_edge(self,u,v,nn):
         p=(u,v)
         self.edgemap[p]=nn
@@ -49,24 +55,29 @@ class EulerTourTree:
           
             del self.IDtoNode[u]
         else:
-            ##TODO get 1st element of the set
-            next=self.NodeSet[u].begin()#change here
+            ##TODO replace if possible with a better way to get  1st element of the set
+            next=None
+            for i in self.NodeSet[u]:
+                next=i
+                break
+                        
             BinarySearchTree().change_root(nn)
             next.adjacent_nodes[0]=n0
             next.adjacent_nodes[1]=n1
-            next.update
-
-    
+            next.update()
         pass
+
     def __remove_edge(self,u,v):
         p=(u,v)
         del self.edgemap[p]
         pass
+
     def __re_root(self,nn):
         BinarySearchTree().change_root(nn)
         if(not nn.left):
             return
         l=nn.left
+        BinarySearchTree().remove_child(l)
         front=BinarySearchTree().leftmost(l)
         front.left=nn
         nn.par=front
@@ -105,6 +116,7 @@ class EulerTourTree:
         self.__add_edge(v,u,vtemp)
         return True
         pass
+
     def cut(self,u,v):
         x=self.__get_edge(u,v)
         if(not x):
@@ -145,16 +157,16 @@ class EulerTourTree:
         while(x.par and x.par!=y):
             BinarySearchTree().rotate(x)
         return x.par==y
-
         pass
+
     def size(self,u):
         x=self.__get_node(u)
         if(not x):
             return 1
         BinarySearchTree().change_root(x)
         return (x.size)/2+1
-        
         pass
+
     def get_adjacent(self,u,is_treeedge):
         x=self.__get_node(u)
         if(not x):
@@ -174,9 +186,8 @@ class EulerTourTree:
                 x=r
         BinarySearchTree().change_root(x)
         return x.val
-
-
         pass
+
     def update_adjacent(self,u,add_adj,is_treeedge):
         self.adj_map[is_treeedge][u]+=add_adj
         x=self.__get_node(u)
@@ -186,3 +197,26 @@ class EulerTourTree:
         x.adjacent_nodes[is_treeedge]+=add_adj
         x.update()
         pass
+
+# def main():
+#         e = EulerTourTree();
+#         e.link(1,2);
+#         e.link(2,3);
+#         e.link(1,4);
+
+#         e.link(5,6);
+#         e.link(6,7);
+#         e.link(5,8);
+#         print("Size\n")
+#         for i in range(1,8):
+#             print(str(i)+" : "+str(e.size(i)))
+#         print(e.link(1,5))
+#         print("IS connedcted:",e.is_connected(1,5))
+#         for i in range(1,8):
+#             print(str(i)+" : "+str(e.size(i)))
+#         print(e.cut(1,5))
+#         print("IS connedcted:",e.is_connected(1,5))
+       
+#         for i in range(1,8):
+#             print(str(i)+" : "+str(e.size(i)))
+# main()

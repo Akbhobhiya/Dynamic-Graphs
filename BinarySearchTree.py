@@ -19,7 +19,7 @@ class node:
         self.size=1
         self.sum_adjacent_nodes[0]=self.adjacent_nodes[0]
         self.sum_adjacent_nodes[1]=self.adjacent_nodes[1]
-
+    
         if(self.left):
             self.size+=self.left.size
             self.sum_adjacent_nodes[0]+=self.left.sum_adjacent_nodes[0]
@@ -32,19 +32,74 @@ class node:
 
         pass
 
+    # def __str__(self):
+    #     print("Value:",str(self.val))
+    #     print("Left:",str(self.left))
+    #     print("Right:",str(self.right))
+    #     print("Parent:",str(self.par))
+
+        
+
 
 class BinarySearchTree:
     def __init__(self):
         pass
+
+    @staticmethod
+    def __rotate_right(nn):
+        p=nn.par
+        gp=p.par
+        rc=nn.right
+        nn.par=gp
+        if(gp):
+            if(p==gp.left):
+                gp.left=nn
+            else:
+                gp.right=nn
+        nn.right=p
+        p.par=nn
+        p.left=rc
+        if(rc):
+            rc.par=p
+
+        p.update()
+        nn.update()
+        pass
+    @staticmethod    
+    def __rotate_left(nn):
+        p=nn.par
+        gp=p.par
+        lc=nn.left
+
+        nn.par=gp
+
+        if(gp):
+            if(p==gp.left):
+                gp.left=nn
+            else:
+                gp.right=nn
+
+        nn.left=p
+        p.par=nn
+
+        p.right=lc
+
+        if(lc):
+            lc.par=p
+
+        p.update()
+        nn.update()
+        pass
+
     #node nn
     def rotate(self,nn):
         p=nn.par
         if(not p):
             return
         if(nn==p.left):
-            __rotate_right(nn)
+            self.__rotate_right(nn)
         else:
-            __rotate_left(nn)
+            self.__rotate_left(nn)
         pass
     
     #node nn
@@ -104,6 +159,8 @@ class BinarySearchTree:
         pass
 
     #node nn
+    
+
     def leftmost(self,nn):
         self.change_root(nn)
         while(nn.left):
@@ -156,46 +213,4 @@ class BinarySearchTree:
 
     #static functions
     #node nn
-    def __rotate_right(nn):
-        p=nn.par
-        gp=p.par
-        rc=nn.right
-        nn.par=gp
-        if(gp):
-            if(p==gp.left):
-                gp.left=nn
-            else:
-                gp.right=nn
-        nn.right=p
-        p.par=nn
-        p.left=rc
-        if(rc):
-            rc.par=p
 
-        p.update()
-        nn.update()
-        pass
-    def __rotate_left(nn):
-        p=nn.par
-        gp=p.par
-        lc=nn.left
-
-        nn.par=gp
-
-        if(gp):
-            if(p==gp.left):
-                gp.left=nn
-            else:
-                gp.right=nn
-
-        nn.left=p
-        p.par=nn
-
-        p.right=lc
-
-        if(lc):
-            lc.par=p
-
-        p.update()
-        nn.update()
-        pass
