@@ -169,7 +169,11 @@ class EulerTourTree:
 
     def get_adjacent(self,u,is_treeedge):
         x=self.__get_node(u)
+        # print("Tree",u,is_treeedge)
+        # print(self.adj_map)
         if(not x):
+            if self.adj_map[is_treeedge].get(u)==None:
+                return -1
             if(self.adj_map[is_treeedge][u]>0):
                 return u
             else:
@@ -193,6 +197,8 @@ class EulerTourTree:
         if self.adj_map[is_treeedge].get(u)==None:
             self.adj_map[is_treeedge][u]=0
         self.adj_map[is_treeedge][u]+=add_adj
+        # print("add adj",add_adj)
+        # print(self.adj_map)
         x=self.__get_node(u)
         if(not x):
             return
@@ -205,15 +211,13 @@ def main():
         e = EulerTourTree();
         e.link(1,2);
         e.link(2,3);
-        e.link(1,4);
+        # e.link(1,4);
+        # e.link(1,3)
+        e.cut(1,2)
+        # print(e.edgemap)
+        print(e.is_connected(2,3))
 
-        e.cut(1,4)
 
-        e.link(5,6);
-        e.link(6,7);
-        e.link(5,8);
-
-        print(e.get_adjacent(1,True))
 
         # print(e.is_connected(2,4))
         # print("Size\n")

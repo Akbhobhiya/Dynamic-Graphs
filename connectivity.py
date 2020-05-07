@@ -9,8 +9,8 @@ class Connect:
 	def __init__(self):
 		self.vertices=set()
 		self.spf=[]
-		self.adj = [{}]
-		self.treeadj = multi_dict(2)
+		self.adj = [{},{}]
+		self.treeadj = [{},{}]
 		self.edge_level=multi_dict(2)
 		self.exists={}
 
@@ -47,35 +47,53 @@ class Connect:
 		self.remove_edge_level(u,v,lvl,True)
 
 		i=lvl 
+		# print(i)
 		while(i>=0):
 			if self.spf[i].size(u) > self.spf[i].size(v):
 				t=u
 				u=v
 				v=t 
 			while True:
+				# print(u)
+				# print("something1")
 				x=self.spf[i].get_adjacent(u,True)
-				print(x)
+				# x=self.spf[i].adj_map[True][u]
+				# print("something2")
+
+				# print("adjacent",x)
 				if x==-1:
 					break
-				while len(self.treeadj[i][x])>0:
+				while (self.treeadj[i].get(x))!=None:
 					y= self.treeadj[i][x][0]
-					self.remove_edge_level(x,y,i+1,True)
+					self.remove_edge_level(x,y,i,True)
 					self.add_edge_level(x,y,i+1,True)
 					self.spf[i+1].link(x,y)
 
 			ff= False
 			while ff==False :
 				x= self.spf[i].get_adjacent(u,False)
+				# print(x)
+				# print(u,x)
 				if x==-1:
 					break 
 				while len(self.adj[i][x])>0 :
-					y=adj[i][x][0]
-					if self.spf[i].is_connected(u,v):
+					y=self.adj[i][x][0]
+					# print(y)
+					# print(y,v, self.spf[i].is_connected(y,v))
+					# print(self.adj)
+
+					print(self.spf[i].adj_map)
+					if self.spf[i].is_connected(y,v):
 						for j in range(i+1):
 							self.spf[j].link(x,y)
 						ff= True
 						self.remove_edge_level(x,y,i,False)
-						self.add_edge_level(x,y,i+1,False)
+						self.add_edge_level(x,y,i,True)
+						break
+
+					else :
+						self.remove_edge_level(x, y, i, False);
+						self.add_edge_level(x, y, i + 1, False);
 
 			if ff:
 				break
@@ -99,20 +117,22 @@ class Connect:
 
 		if is_treeedge:
 			# print("level u",self.treeadj[level][u])
-			if self.treeadj[level][u]==0:
+
+			if self.treeadj[level].get(u)==None:
 				self.treeadj[level][u]=[v]
 			else:
 
 				self.treeadj[level][u].append(v)
 			# print("level v",self.treeadj[level][v])
-			if self.treeadj[level][v]==0:
+			if self.treeadj[level].get(v)==None:
 				self.treeadj[level][v]=[u]
 			else:
 				self.treeadj[level][v].append(u)
 
 			# pass
 		else :
-			# print(self.adj[level])
+			# print(self.adj)
+			# print(self.adj)
 			if self.adj[level].get(u)==None:
 				self.adj[level][u]=[v]
 			else:
@@ -123,8 +143,13 @@ class Connect:
 				self.adj[level][v].append(u)
 
 			# pass
-		self.spf[level].update_adjacent(u,-1,is_treeedge)
-		self.spf[level].update_adjacent(v,-1,is_treeedge)
+		# print(self.adj)
+		self.spf[level].update_adjacent(u,1,is_treeedge)
+		self.spf[level].update_adjacent(v,1,is_treeedge)
+
+		# print("updating" , level,is_treeedge,u,self.spf[level].adj_map[is_treeedge][u])
+		# print("updating" , is_treeedge,u,self.spf[level].adj_map[is_treeedge][v])
+
 
 
 	def remove_edge_level(self,u,v,level,is_treeedge):
@@ -139,14 +164,16 @@ class Connect:
 		# print(self.edge_level[(u,v)])
 		# level=level[0]
 		# print("level=",level)
+		# print(self.adj)
 		if is_treeedge:
 			# print(self.treeadj[level][u])
+
 			self.treeadj[level][u].remove(v)
 			self.treeadj[level][v].remove(u)
 		else :
 			self.adj[level][u].remove(v)
 			self.adj[level][v].remove(u)
-
+		# print("Adjacency" , self.treeadj[level])
 		self.spf[level].update_adjacent(u,-1,is_treeedge)
 		self.spf[level].update_adjacent(v,-1,is_treeedge)
 
@@ -163,13 +190,18 @@ class Connect:
 
 def main():
 	o = Connect()
-	o.add_vertex(0)
 	o.add_vertex(1)
 	o.add_vertex(2)
-	o.add_edge(0,1)
+	o.add_vertex(3)
 	o.add_edge(1,2)
-	o.add_edge(0,2)
-	o.delete_edge(0,1)
+
+	# print(o.spf[0].get_adjacent(1,True))
+	o.add_edge(2,3)
+	o.add_edge(1,3)
+	o.delete_edge(1,2)
+	print(o.is_connected(1,2))
+	# print(o.is_connected(1,3))
+	# o.delete_edge(1,2)
 	# o.add_edge(0,1)
 	# print(o.adj , o.treeadj)
 	# print(o.spf[0])
