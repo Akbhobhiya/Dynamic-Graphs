@@ -170,19 +170,19 @@ class EulerTourTree:
     def get_adjacent(self,u,is_treeedge):
         x=self.__get_node(u)
         if(not x):
-            if(self.adj_map[is_treeedge][u]>0):
+            if(self.adj_map[is_treeedge][u]>1):
                 return u
             else:
                 return -1
         BinarySearchTree().change_root(x)
-        if(x.sum_adjacent_nodes[is_treeedge]<=0):
+        if(x.sum_adjacent_nodes[is_treeedge]<=1):
             return -1
-        while(self.adj_map[is_treeedge][x.val]==0):
+        while(self.adj_map[is_treeedge][x.val]==1):
             l=x.left
             r=x.right
-            if(l and l.sum_adjacent_nodes[is_treeedge]>0):
+            if(l and l.sum_adjacent_nodes[is_treeedge]>1):
                 x=1
-            elif(r and r.sum_adjacent_nodes[is_treeedge]>0):
+            elif(r and r.sum_adjacent_nodes[is_treeedge]>1):
                 x=r
         BinarySearchTree().change_root(x)
         return x.val
@@ -200,6 +200,10 @@ class EulerTourTree:
         x.adjacent_nodes[is_treeedge]+=add_adj
         x.update()
         pass
+    def printEdgeMap(self):
+        for i in self.edgemap:
+            print(i,":")
+            print(str(self.edgemap[i].val))
 
 def main():
         e = EulerTourTree();
@@ -207,14 +211,15 @@ def main():
         e.link(2,3);
         e.link(1,4);
 
-        e.cut(1,4)
+        #e.cut(1,4)
 
         e.link(5,6);
         e.link(6,7);
         e.link(5,8);
-
+        
         print(e.get_adjacent(1,True))
-
+        # for i in range(1,8):
+        #     print(e.IDtoNode[i])
         # print(e.is_connected(2,4))
         # print("Size\n")
         # for i in range(1,8):

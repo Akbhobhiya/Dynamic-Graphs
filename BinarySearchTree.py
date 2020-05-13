@@ -10,39 +10,55 @@ class node:
         self.size=1
         
         #[2]  no. of adjacent nodes in graph in fully dynamic-tree(1) and non -tree(0)
-        self.adjacent_nodes=[0,0] 
+        self.adjacent_nodes=[1,1] 
 
         #[2] sum of adjacent_nodes in subtree
-        self.sum_adjacent_nodes=[0,0] 
+        self.sum_adjacent_nodes=[1,1] 
         
     def update(self):
         self.size=1
         self.sum_adjacent_nodes[0]=self.adjacent_nodes[0]
         self.sum_adjacent_nodes[1]=self.adjacent_nodes[1]
-    
+        print("Current value:",self.val)
         if(self.left):
+            print("left value",self.left.val)
             self.size+=self.left.size
             self.sum_adjacent_nodes[0]+=self.left.sum_adjacent_nodes[0]
             self.sum_adjacent_nodes[1]+=self.left.sum_adjacent_nodes[1]
 
         if(self.right):
+            print("right value",self.right.val)
             self.size+=self.right.size
             self.sum_adjacent_nodes[0]+=self.right.sum_adjacent_nodes[0]
             self.sum_adjacent_nodes[1]+=self.right.sum_adjacent_nodes[1]    
-
+        print("\n\n\n")
         pass
 
-    # def __str__(self):
-    #     print("Value:",str(self.val))
-    #     print("Left:",str(self.left))
-    #     print("Right:",str(self.right))
-    #     print("Parent:",str(self.par))
+    def __str__(self):
+        print("Value:",str(self.val))
+        if (self.left):
+            print("Left:",str(self.left.val))
+        else:
+            print("Left:NONE")
+        if(self.right):
+            print("Right:",str(self.right.val))
+        else:
+            print("Right:NONE")
+        if(self.par):
+            print("Parent:",str(self.par.val))
+        else:
+            print("Parent:NONE")
+        print("Size:",str(self.size))
+        print("adjacent_nodes:",str(self.adjacent_nodes))
+        print("sum adjacent_nodes:",str(self.sum_adjacent_nodes))
 
-        
 
 
 class BinarySearchTree:
     def __init__(self):
+        pass
+
+    def __str__(self):
         pass
 
     @staticmethod

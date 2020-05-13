@@ -9,7 +9,7 @@ class Node:
     self.sum_adjacent_nodes=[None,None]
 
   def update(self):
-
+    pass
 
 
 class SplayTree:
