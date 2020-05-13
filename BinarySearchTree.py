@@ -19,19 +19,19 @@ class node:
         self.size=1
         self.sum_adjacent_nodes[0]=self.adjacent_nodes[0]
         self.sum_adjacent_nodes[1]=self.adjacent_nodes[1]
-        print("Current value:",self.val)
+        # print("Current value:",self.val)
         if(self.left):
-            print("left value",self.left.val)
+            # print("left value",self.left.val)
             self.size+=self.left.size
             self.sum_adjacent_nodes[0]+=self.left.sum_adjacent_nodes[0]
             self.sum_adjacent_nodes[1]+=self.left.sum_adjacent_nodes[1]
 
         if(self.right):
-            print("right value",self.right.val)
+            # print("right value",self.right.val)
             self.size+=self.right.size
             self.sum_adjacent_nodes[0]+=self.right.sum_adjacent_nodes[0]
             self.sum_adjacent_nodes[1]+=self.right.sum_adjacent_nodes[1]    
-        print("\n\n\n")
+        # print("\n\n\n")
         pass
 
     def __str__(self):
@@ -48,9 +48,11 @@ class node:
             print("Parent:",str(self.par.val))
         else:
             print("Parent:NONE")
-        print("Size:",str(self.size))
-        print("adjacent_nodes:",str(self.adjacent_nodes))
-        print("sum adjacent_nodes:",str(self.sum_adjacent_nodes))
+        # print("Size:",str(self.size))
+        # print("adjacent_nodes:",str(self.adjacent_nodes))
+        # print("sum adjacent_nodes:",str(self.sum_adjacent_nodes))
+        # print("\n\n\n")
+        pass
 
 
 
@@ -60,6 +62,39 @@ class BinarySearchTree:
 
     def __str__(self):
         pass
+
+    def printLevelOrder(self,root): 
+        if root is None: 
+            print(" _ ")
+            return
+        q = [] 
+        q.append(root) 
+        while q: 
+            count = len(q) 
+            
+            while count > 0: 
+                temp = q.pop(0) 
+                print(temp.val, end = ' ') 
+                if temp.left: 
+                    q.append(temp.left) 
+                if temp.right:
+                    q.append(temp.right) 
+    
+                count -= 1
+            print(' ') 
+
+
+    def printTree(self,nn):
+        root=self.findRoot(nn)
+        self.printLevelOrder(root)
+    
+    def findRoot(self,nn):
+        temp=nn
+        while(temp.par):
+            temp=temp.par
+        return temp
+        
+
 
     @staticmethod
     def __rotate_right(nn):
@@ -212,16 +247,21 @@ class BinarySearchTree:
             return node()
         
         self.change_root(nn)
+        self.printTree(nn);
         
         while(nn.right):
             nn=nn.right
+        self.printTree(nn)
         
         newnode=node()
         newnode.par=nn
         nn.right=newnode
         nn.update()
+        self.printTree(nn);
+
 
         self.change_root(newnode)
+        self.printTree(nn);
 
         return newnode
 

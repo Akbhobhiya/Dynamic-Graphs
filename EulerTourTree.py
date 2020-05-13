@@ -84,6 +84,8 @@ class EulerTourTree:
         front.update()
         BinarySearchTree().change_root(nn)
 
+        
+
         pass
 
 
@@ -94,23 +96,55 @@ class EulerTourTree:
         x=self.__get_node(u)
         y=self.__get_node(v)
         if(x):
+            print("Befor re root")
+            self.printTree()
             self.__re_root(x)
+            print("after re root")
+            self.printTree()
+
         if(y):
-            self.__re_root(x)
+            print("Befor re root")
+            self.printTree()
+            self.__re_root(y)
+            print("after re root")
+            self.printTree()
+            
+        self.printTree()
+        self.printNodesStored()
         utemp=BinarySearchTree().insert_new(x)
+
+        self.printTree()
+        self.printNodesStored()
         vtemp=BinarySearchTree().insert_new(y)
+
         utemp.val=u
         vtemp.val=v
 
+        self.printTree()
+        self.printNodesStored()
+        
         self.__add_node(u,utemp)
+        self.printTree()
+        self.printNodesStored()
+
         self.__add_node(v,vtemp)
+        self.printTree()
+        self.printNodesStored()
 
         if(not y):
             y=vtemp
+
         BinarySearchTree().change_root(y)
+
+        self.printTree()
+        self.printNodesStored()
+
         utemp.right=y
         y.par=utemp
         utemp.update()
+
+        self.printTree()
+        self.printNodesStored()
 
         self.__add_edge(u,v,utemp)
         self.__add_edge(v,u,vtemp)
@@ -119,13 +153,19 @@ class EulerTourTree:
 
     def cut(self,u,v):
         x=self.__get_edge(u,v)
+
         if(not x):
             return False
+
         y=self.__get_edge(v,u)
+
         self.__re_root(x)
+
         BinarySearchTree().change_root(y)
+
         while(x.par!=y):
             BinarySearchTree().rotate(x)
+
         BinarySearchTree().remove_child(x)
 
         next=BinarySearchTree().next_in_seq(y)
@@ -151,11 +191,13 @@ class EulerTourTree:
         y=self.__get_node(v)
         if(not x or not y):
             return False
-        BinarySearchTree().change_root(x)
-        BinarySearchTree().change_root(y)
-
+        bst = BinarySearchTree();
+        bst.change_root(x)
+        bst.change_root(y)
+        
         while(x.par and x.par!=y):
-            BinarySearchTree().rotate(x)
+            # print("X parent:" , x.par) 
+            bst.rotate(x)
         return x.par==y
         pass
 
@@ -169,8 +211,12 @@ class EulerTourTree:
 
     def get_adjacent(self,u,is_treeedge):
         x=self.__get_node(u)
+        # print("Tree",u,is_treeedge)
+        # print(self.adj_map)
         if(not x):
-            if(self.adj_map[is_treeedge][u]>1):
+            if self.adj_map[is_treeedge].get(u)==None:
+                return -1
+            if(self.adj_map[is_treeedge][u]>0):
                 return u
             else:
                 return -1
@@ -193,6 +239,8 @@ class EulerTourTree:
         if self.adj_map[is_treeedge].get(u)==None:
             self.adj_map[is_treeedge][u]=0
         self.adj_map[is_treeedge][u]+=add_adj
+        # print("add adj",add_adj)
+        # print(self.adj_map)
         x=self.__get_node(u)
         if(not x):
             return
@@ -200,37 +248,64 @@ class EulerTourTree:
         x.adjacent_nodes[is_treeedge]+=add_adj
         x.update()
         pass
+
     def printEdgeMap(self):
         for i in self.edgemap:
             print(i,":")
             print(str(self.edgemap[i].val))
+    def printNodesStored(self):
+        e=self
+        print("------------------------")
+        print("Keys inside")
+        for key in e.IDtoNode:
+            print(key)
+            print("PArent:")
+            if(e.IDtoNode[key].par):
+                print(e.IDtoNode[key].par.val)
+            else:
+                print("None")
+            print("Left:")
+
+            if(e.IDtoNode[key].left):
+                print(e.IDtoNode[key].left.val)
+            else:
+                print("None")
+
+            print("Right:")
+
+            if(e.IDtoNode[key].right):
+                print(e.IDtoNode[key].right.val)
+            else:
+                print("None")
+
+        print("------------------------")
+
+    def printTree(self):
+            print("------------------------------------")
+
+            print("Tree")
+            for key in self.IDtoNode:
+                BinarySearchTree().printTree(self.IDtoNode[key])
+                break
+            print("------------------------------------")
+
 
 def main():
         e = EulerTourTree();
+        print("Step 1")
         e.link(1,2);
+        e.printTree()
+        e.printNodesStored()
+
+        print("Step 2")
         e.link(2,3);
-        e.link(1,4);
+        e.printTree()
+        e.printNodesStored()
 
-        #e.cut(1,4)
+        print("Step 3")
+        e.cut(1,2)
+        e.printTree()
+        e.printNodesStored()    
 
-        e.link(5,6);
-        e.link(6,7);
-        e.link(5,8);
-        
-        print(e.get_adjacent(1,True))
-        # for i in range(1,8):
-        #     print(e.IDtoNode[i])
-        # print(e.is_connected(2,4))
-        # print("Size\n")
-        # for i in range(1,8):
-        #     print(str(i)+" : "+str(e.size(i)))
-        # print(e.link(1,5))
-        # print("IS connedcted:",e.is_connected(1,5))
-        # for i in range(1,8):
-        #     print(str(i)+" : "+str(e.size(i)))
-        # print(e.cut(1,5))
-        # print("IS connedcted:",e.is_connected(1,5))
-       
-        # for i in range(1,8):
-        #     print(str(i)+" : "+str(e.size(i)))
+        pass
 main()
