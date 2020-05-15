@@ -128,8 +128,10 @@ class BinarySearchTree:
         if(not nn):
             return
         while(nn.par):
+            # print(nn.par.val)
             p=nn.par
             gp=p.par
+            # print(gp)
             if(not gp):
                 self.rotate(nn)
                 break
@@ -150,6 +152,7 @@ class BinarySearchTree:
         p=nn.par
         if(not p):
             return
+        # print("yh")
         if(nn==p.left):
             p.left=None
         else:
@@ -213,4 +216,5 @@ class BinarySearchTree:
 
     #static functions
     #node nn
+
 

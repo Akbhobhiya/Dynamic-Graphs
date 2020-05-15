@@ -37,7 +37,9 @@ class Connect:
 	def delete_edge(self,u,v):
 		if self.exists.get(u)==None or self.exists.get(v)==None:
 			return False
+		# print(self.spf[0].adj_map)
 		lvl = (self.level(u,v))[0]
+		# print(lvl)
 		if lvl ==-1 :
 			return False
 		if not(self.spf[0].cut(u,v)):
@@ -45,6 +47,7 @@ class Connect:
 			return True
 
 		self.remove_edge_level(u,v,lvl,True)
+		# print(self.spf[0].adj_map)
 
 		i=lvl 
 		# print(i)
@@ -53,15 +56,17 @@ class Connect:
 				t=u
 				u=v
 				v=t 
+				
 			while True:
 				# print(u)
 				# print("something1")
 				x=self.spf[i].get_adjacent(u,True)
 				# x=self.spf[i].adj_map[True][u]
 				# print("something2")
-
+				# print(u,x)
 				# print("adjacent",x)
 				if x==-1:
+					# print("yeh")
 					break
 				while (self.treeadj[i].get(x))!=None:
 					y= self.treeadj[i][x][0]
@@ -75,6 +80,7 @@ class Connect:
 				# print(x)
 				# print(u,x)
 				if x==-1:
+					# print("yeh")
 					break 
 				while len(self.adj[i][x])>0 :
 					y=self.adj[i][x][0]
@@ -105,6 +111,7 @@ class Connect:
 			return False
 		if u==v:
 			return True
+		
 		return self.spf[0].is_connected(u,v)
 
 	def add_edge_level(self,u,v,level,is_treeedge):
@@ -197,9 +204,9 @@ def main():
 
 	# print(o.spf[0].get_adjacent(1,True))
 	o.add_edge(2,3)
-	o.add_edge(1,3)
+	# o.add_edge(1,3)
 	o.delete_edge(1,2)
-	print(o.is_connected(1,2))
+	# print(o.is_connected(2,3))
 	# print(o.is_connected(1,3))
 	# o.delete_edge(1,2)
 	# o.add_edge(0,1)

@@ -93,15 +93,27 @@ class EulerTourTree:
             return False
         x=self.__get_node(u)
         y=self.__get_node(v)
+        # print(x,y)
+        utemp,vtemp=None,None
         if(x):
             self.__re_root(x)
+            utemp=x
+        else :
+            utemp=BinarySearchTree().insert_new(x)
+
         if(y):
+
             self.__re_root(x)
-        utemp=BinarySearchTree().insert_new(x)
-        vtemp=BinarySearchTree().insert_new(y)
+            vtemp=y
+        else :
+            vtemp=BinarySearchTree().insert_new(y)
+
+
+        
+        # print(utemp,vtemp)
         utemp.val=u
         vtemp.val=v
-
+        # print(utemp)
         self.__add_node(u,utemp)
         self.__add_node(v,vtemp)
 
@@ -114,33 +126,42 @@ class EulerTourTree:
 
         self.__add_edge(u,v,utemp)
         self.__add_edge(v,u,vtemp)
+        # print(utemp==vtemp.par)
+
         return True
         pass
 
     def cut(self,u,v):
         x=self.__get_edge(u,v)
+
         if(not x):
             return False
+
         y=self.__get_edge(v,u)
+
         self.__re_root(x)
+
         BinarySearchTree().change_root(y)
+        # print(x.par==y)
         while(x.par!=y):
             BinarySearchTree().rotate(x)
+        # print(y.left,y.right)
         BinarySearchTree().remove_child(x)
-
-        next=BinarySearchTree().next_in_seq(y)
-        if(next):
-            temp=next.val
+        # print("ss")
+        ne=BinarySearchTree().next_in_seq(y)
+        # print(ne)
+        if(ne):
+            temp=ne.val
             t=BinarySearchTree().rightmost(next)
             self.__remove_edge(v,temp)
             self.__add_edge(v,temp,t)
 
-        self.__remove_node(u,x)
-        self.__remove_node(v,y)
+        # self.__remove_node(u,x)
+        # self.__remove_node(v,y)
         self.__remove_edge(u,v)
         self.__remove_edge(v,u)
-        BinarySearchTree().delete_node(x)
-        BinarySearchTree().delete_node(y)
+        # BinarySearchTree().delete_node(x)
+        # BinarySearchTree().delete_node(y)
         return True
         pass
 
@@ -151,9 +172,11 @@ class EulerTourTree:
         y=self.__get_node(v)
         if(not x or not y):
             return False
+        # print(x.right.val)
         BinarySearchTree().change_root(x)
         BinarySearchTree().change_root(y)
-
+        # print(x.val,y,x.par.val,y.par)
+        # print(x.par)
         while(x.par and x.par!=y):
             BinarySearchTree().rotate(x)
         return x.par==y
@@ -210,12 +233,24 @@ class EulerTourTree:
 def main():
         e = EulerTourTree();
         e.link(1,2);
+
         e.link(2,3);
-        # e.link(1,4);
-        # e.link(1,3)
-        e.cut(1,2)
-        # print(e.edgemap)
-        print(e.is_connected(2,3))
+        # # e.link(1,4);
+        # # e.link(1,3)
+        # e.cut(1,2)
+        # print(e.IDtoNode)
+
+
+        # # print(e.edgemap)
+        # # print(e.adj_map)
+        # print(e.is_connected(2,3))
+
+        e.link(4,5)
+        e.link(5,6)
+        # print(e.is_connected(1,4))
+        e.link(3,6)
+        # print(e.is_connected(1,4))
+
 
 
 
@@ -232,4 +267,4 @@ def main():
        
         # for i in range(1,8):
         #     print(str(i)+" : "+str(e.size(i)))
-main()
+# main()
