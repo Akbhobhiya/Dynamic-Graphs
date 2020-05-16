@@ -93,93 +93,98 @@ class EulerTourTree:
             return False
         x=self.__get_node(u)
         y=self.__get_node(v)
-        # print(x,y)
-        utemp,vtemp=None,None
         if(x):
             self.__re_root(x)
-            utemp=x
-        else :
-            utemp=BinarySearchTree().insert_new(x)
-
         if(y):
-
-            self.__re_root(x)
-            vtemp=y
-        else :
-            vtemp=BinarySearchTree().insert_new(y)
-
-
-        
-        # print(utemp,vtemp)
+            self.__re_root(y)
+        utemp=BinarySearchTree().insert_new(x)
+        vtemp=BinarySearchTree().insert_new(y)
         utemp.val=u
         vtemp.val=v
-        # print(utemp)
+        # print(utemp.right , utemp.left , vtemp.right , vtemp.left)
         self.__add_node(u,utemp)
         self.__add_node(v,vtemp)
-
+        # print(self.NodeSet)
         if(not y):
             y=vtemp
         BinarySearchTree().change_root(y)
         utemp.right=y
         y.par=utemp
         utemp.update()
+        # print("utemp , vtemp , uright , ypar",utemp,vtemp, utemp.right , y.par)
+
 
         self.__add_edge(u,v,utemp)
         self.__add_edge(v,u,vtemp)
-        # print(utemp==vtemp.par)
-
         return True
         pass
 
+
+
     def cut(self,u,v):
         x=self.__get_edge(u,v)
-
         if(not x):
             return False
-
         y=self.__get_edge(v,u)
-
         self.__re_root(x)
-
         BinarySearchTree().change_root(y)
-        # print(x.par==y)
+
         while(x.par!=y):
             BinarySearchTree().rotate(x)
-        # print(y.left,y.right)
         BinarySearchTree().remove_child(x)
-        # print("ss")
-        ne=BinarySearchTree().next_in_seq(y)
-        # print(ne)
-        if(ne):
-            temp=ne.val
+
+        next=BinarySearchTree().next_in_seq(y)
+        if(next):
+            temp=next.val
             t=BinarySearchTree().rightmost(next)
             self.__remove_edge(v,temp)
             self.__add_edge(v,temp,t)
 
-        # self.__remove_node(u,x)
-        # self.__remove_node(v,y)
+        self.__remove_node(u,x)
+        self.__remove_node(v,y)
         self.__remove_edge(u,v)
         self.__remove_edge(v,u)
-        # BinarySearchTree().delete_node(x)
-        # BinarySearchTree().delete_node(y)
+        BinarySearchTree().delete_node(x)
+        BinarySearchTree().delete_node(y)
         return True
         pass
+
+
 
     def is_connected(self,u,v):
         if(u==v):
             return True
-        x=self.__get_node(u)
-        y=self.__get_node(v)
-        if(not x or not y):
+        # x=self.__get_node(u)
+        # y=self.__get_node(v)
+        # # print()
+        # if(not x or not y):
+        #     return False
+        # # print(x, y)
+        # BinarySearchTree().change_root(x)
+        # BinarySearchTree().change_root(y)
+
+        # while(x.par and x.par!=y):
+        #     BinarySearchTree().rotate(x)
+        # if x.par==y:
+        #     return True
+        if self.NodeSet.get(u)==None or self.NodeSet.get(v)==None:
             return False
-        # print(x.right.val)
-        BinarySearchTree().change_root(x)
-        BinarySearchTree().change_root(y)
-        # print(x.val,y,x.par.val,y.par)
-        # print(x.par)
-        while(x.par and x.par!=y):
-            BinarySearchTree().rotate(x)
-        return x.par==y
+        x1=self.NodeSet[u]
+        y1=self.NodeSet[v]
+
+        for x in x1:
+            for y in y1:
+                if not x or not y:
+                    continue
+                BinarySearchTree().change_root(x)
+                BinarySearchTree().change_root(y)
+                while(x.par and x.par!=y):
+                    BinarySearchTree().rotate(x)
+                if x.par==y:
+                    return True
+        return False
+
+
         pass
 
     def size(self,u):
@@ -233,24 +238,45 @@ class EulerTourTree:
 def main():
         e = EulerTourTree();
         e.link(1,2);
-
+        # print(e.NodeSet)
+        # e.link(2,3);
+        # print(e.NodeSet)
         e.link(2,3);
-        # # e.link(1,4);
-        # # e.link(1,3)
+        # print(e.NodeSet)
+        # print(e.is_connected(1,3))
         # e.cut(1,2)
-        # print(e.IDtoNode)
-
-
-        # # print(e.edgemap)
-        # # print(e.adj_map)
+        # print(e.NodeSet)
         # print(e.is_connected(2,3))
-
+        
+        # print(a2,a2.right,a2.left,a3,a3.par)
+        # e.cut(1,2)
+        # print(e.is_connected(3,2))
         e.link(4,5)
         e.link(5,6)
-        # print(e.is_connected(1,4))
-        e.link(3,6)
-        # print(e.is_connected(1,4))
+        
+        # print(e.is_connected(3,5) )
 
+        e.link(1,4)
+        # print(e.is_connected(2,4))
+        e.cut(1,4)
+        # print(e.is_connected(2,4))
+
+
+
+        # print(a2,a2.right,a2.left,a3,a3.par)
+        # print(e.is_connected(2,3))
+        # print(a1.right , a1.left, a2,a2.par)
+        # print(e.NodeSet)
+        # e.cut(1,2)
+        # print(e.NodeSet)
+        # print(e.is_connected(2,3))
+
+        # print(e.IDtoNode)
+        # e.link(1,4);
+        # e.link(1,3)
+        # e.cut(1,2)
+        # print(e.edgemap)
+        # print(e.is_connected(2,3))
 
 
 
