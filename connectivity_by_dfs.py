@@ -47,18 +47,28 @@ class Graph:
             return "Edge ("+str(u) +","+ str(v) + ") isn't a direct edge or may be already deleted."
             
     # dfs for checking connectivity
-    def dfs(self,u,v):
-        # print(self.visited)
-        self.visited[u]=True
-        # print(v)
-        if v in self.adList[u]:
-            self.visited[v]=True
-            return 
-        for i in self.adList[u]:
-            # print(u)
-            
-            if self.visited[i] == False:
-                self.dfs(i,v)
+
+    def dfs(self,u,v):        
+  
+        # Create a stack for DFS  
+        stack = [] 
+  
+        # Push the current source node.  
+        stack.append(u)  
+  
+        while (len(stack)):
+            s = stack[-1]  
+            stack.pop()
+            if s == v:
+                self.visited[v] =True
+                return
+            if (not self.visited[s]):   
+                self.visited[s] = True 
+    
+            for node in self.adList[s]:  
+                if (not self.visited[node]):  
+                    stack.append(node)
+
 
     # function to check if u has a path to v
     def is_connected(self,u,v):

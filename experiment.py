@@ -54,11 +54,12 @@ r=0
 start=time.time()
 for i in range(1,n+1):
 	for j in range(1,n+1):
-		if g.is_connected(i,j) ==True:
+		if o.is_connected(i,j) ==True:
 			r+=1
 		else:
 			w+=1
-print(time.time()-start,r,w)
+
+print(time.time() - start,r,w)	
 
 w=0
 r=0
@@ -66,12 +67,13 @@ r=0
 start=time.time()
 for i in range(1,n+1):
 	for j in range(1,n+1):
-		if o.is_connected(i,j) ==True:
+		if g.is_connected(i,j) ==True:
 			r+=1
 		else:
 			w+=1
+print(time.time()-start,r,w)
 
-print(time.time() - start,r,w)	
+
 # print(time.time() - start , r , w)
 
 		# print(o.is_connected(i,j) , g.is_connected(i,j) )
