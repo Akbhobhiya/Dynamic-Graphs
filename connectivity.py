@@ -11,7 +11,7 @@ class Connect:
 		self.spf=[]
 		self.adj = [{},{}]
 		self.treeadj = [{},{}]
-		self.edge_level=multi_dict(2)
+		self.edge_level={}
 		self.exists={}
 
 	def add_vertex(self,u):
@@ -21,6 +21,8 @@ class Connect:
 		# adj.append({})
 
 	def add_edge(self,u,v):
+		if u>v:
+			u,v=v,u
 		self.edge_level[(u,v)]=[]
 		if self.exists.get(u)==None or self.exists.get(v)==None:
 			return False
@@ -65,7 +67,7 @@ class Connect:
 				if x==-1:
 					break
 				# print("something2")
-				while (len(self.treeadj[i][x]))!=None:
+				while (len(self.treeadj[i][x]))>0:
 					y= self.treeadj[i][x][0]
 					self.remove_edge_level(x,y,i,True)
 					self.add_edge_level(x,y,i+1,True)
@@ -205,9 +207,10 @@ def main():
 	# print(o.spf[0].get_adjacent(1,True))
 	o.add_edge(2,3)
 	o.add_edge(1,3)
+
 	# o.delete_edge(1,2)
 	o.delete_edge(1,3)
-	# print(o.is_connected(1,2))
+	print(o.is_connected(1,2))
 
 
 
@@ -219,4 +222,4 @@ def main():
 	# print(o.adj , o.treeadj)
 	# print(o.spf[0])
 	# o.delete_edge(0,1)
-main()
+# main()
