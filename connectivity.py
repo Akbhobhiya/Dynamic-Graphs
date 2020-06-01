@@ -209,7 +209,8 @@ def main():
 	o.add_edge(1,3)
 
 	# o.delete_edge(1,2)
-	o.delete_edge(1,3)
+	o.delete_edge(1,2)
+	# o.delete_edge()
 	print(o.is_connected(1,2))
 
 

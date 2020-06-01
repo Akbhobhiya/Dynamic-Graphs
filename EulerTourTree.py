@@ -154,35 +154,38 @@ class EulerTourTree:
     def is_connected(self,u,v):
         if(u==v):
             return True
-        # x=self.__get_node(u)
-        # y=self.__get_node(v)
-        # # print()
-        # if(not x or not y):
-        #     return False
-        # # print(x, y)
-        # BinarySearchTree().change_root(x)
-        # BinarySearchTree().change_root(y)
-
-        # while(x.par and x.par!=y):
-        #     BinarySearchTree().rotate(x)
-        # if x.par==y:
-        #     return True
-        if self.NodeSet.get(u)==None or self.NodeSet.get(v)==None:
+        x=self.__get_node(u)
+        y=self.__get_node(v)
+        # print()
+        if(not x or not y):
             return False
-        x1=self.NodeSet[u]
-        y1=self.NodeSet[v]
+        # print(x, y)
+        BinarySearchTree().change_root(x)
+        BinarySearchTree().change_root(y)
 
-        for x in x1:
-            for y in y1:
-                if not x or not y:
-                    continue
-                BinarySearchTree().change_root(x)
-                BinarySearchTree().change_root(y)
-                while(x.par and x.par!=y):
-                    BinarySearchTree().rotate(x)
-                if x.par==y:
-                    return True
+        while(x.par and x.par!=y):
+            BinarySearchTree().rotate(x)
+        if x.par==y:
+            return True
         return False
+        # if self.NodeSet.get(u)==None or self.NodeSet.get(v)==None:
+        #     return False
+        # x1=self.NodeSet[u]
+        # y1=self.NodeSet[v]
+
+        # for x in x1:
+        #     for y in y1:
+        #         if not x or not y:
+        #             continue
+        #         BinarySearchTree().change_root(x)
+        #         BinarySearchTree().change_root(y)
+        #         while(x.par and x.par!=y):
+        #             BinarySearchTree().rotate(x)
+        #         if x.par==y:
+        #             return True
+        #         break
+        #     break
+        # return False
 
 
         pass
