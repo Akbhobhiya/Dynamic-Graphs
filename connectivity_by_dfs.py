@@ -61,7 +61,7 @@ class Graph:
             stack.pop()
             if s == v:
                 self.visited[v] =True
-                return
+                # return
             if (not self.visited[s]):   
                 self.visited[s] = True 
     
@@ -75,13 +75,16 @@ class Graph:
         # print(self.length)
         # self.visited=[False]*(self.length)
         if v in self.adList[u]:
-            return "Edge, ("+str(u) +","+ str(v) + ") connected"
+            # return "Edge, ("+str(u) +","+ str(v) + ") connected"
+            return True
         self.visited=[False]*1000
         self.dfs(u,v)
         if self.visited[v] == True:
-            return "Edge, ("+str(u) +","+ str(v) + ") connected" 
+            # return "Edge, ("+str(u) +","+ str(v) + ") connected" 
+            return True
         else:
-            return "Edge, ("+str(u) +","+ str(v) + ") not connected" 
+            # return "Edge, ("+str(u) +","+ str(v) + ") not connected" 
+            return False
             
 
 

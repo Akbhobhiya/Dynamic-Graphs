@@ -10,6 +10,7 @@ class Graph:
     # function to add an edge to graph 
     def add_edge(self,u,v): 
         self.graph[u].append(v) 
+        self.graph[v].append(u)
        
      # Use BFS to check path between s and d 
     def is_connected(self, s, d): 
@@ -30,8 +31,8 @@ class Graph:
               
             # If this adjacent node is the destination node, 
             # then return true 
-             if n == d: 
-                 return True
+            if n == d: 
+                return True
   
             #  Else, continue to do BFS 
             for i in self.graph[n]: 
@@ -39,4 +40,4 @@ class Graph:
                     queue.append(i) 
                     visited[i] = True
          # If BFS is complete without visited d 
-         return False
+        return False

@@ -13,7 +13,8 @@ class Connect:
 		self.treeadj = [{},{}]
 		self.edge_level={}
 		self.exists={}
-
+		# self.adj_list=[[] for _ in range(100000)]
+		self.mp={}
 	def add_vertex(self,u):
 		self.vertices.add(u)
 		self.spf.append(Tree())
@@ -23,6 +24,9 @@ class Connect:
 	def add_edge(self,u,v):
 		if u>v:
 			u,v=v,u
+		if self.mp.get((u,v))!=None:
+			return
+		self.mp[(u,v)]=True
 		self.edge_level[(u,v)]=[]
 		if self.exists.get(u)==None or self.exists.get(v)==None:
 			return False
@@ -39,7 +43,11 @@ class Connect:
 	def delete_edge(self,u,v):
 		if self.exists.get(u)==None or self.exists.get(v)==None:
 			return False
+		if self.level(u,v)==-1 or self.level(u,v)==[]:
+			return
+		# print(self.level(u,v))
 		lvl = (self.level(u,v))[0]
+
 		if lvl ==-1 :
 			return False
 		if not(self.spf[0].cut(u,v)):
