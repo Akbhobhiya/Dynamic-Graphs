@@ -32,11 +32,11 @@ class node:
 
         pass
 
-    # def __str__(self):
-    #     print("Value:",str(self.val))
-    #     print("Left:",str(self.left))
-    #     print("Right:",str(self.right))
-    #     print("Parent:",str(self.par))
+    def __str__(self):
+        print("Value:",str(self.val))
+        print("Left:",str(self.left))
+        print("Right:",str(self.right))
+        print("Parent:",str(self.par))
 
         
 

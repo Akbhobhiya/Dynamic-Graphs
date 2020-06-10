@@ -241,12 +241,12 @@ class EulerTourTree:
 def main():
         e = EulerTourTree();
         e.link(1,2);
-        # print(e.NodeSet)
+        print(e.NodeSet)
+        e.link(2,3);
+        print(e.NodeSet)
         # e.link(2,3);
         # print(e.NodeSet)
-        e.link(2,3);
-        # print(e.NodeSet)
-        # print(e.is_connected(1,3))
+        print(e.is_connected(1,3))
         # e.cut(1,2)
         # print(e.NodeSet)
         # print(e.is_connected(2,3))
@@ -254,14 +254,14 @@ def main():
         # print(a2,a2.right,a2.left,a3,a3.par)
         # e.cut(1,2)
         # print(e.is_connected(3,2))
-        e.link(4,5)
-        e.link(5,6)
+        # e.link(4,5)
+        # e.link(5,6)
         
         # print(e.is_connected(3,5) )
 
-        e.link(1,4)
+        # e.link(1,4)
         # print(e.is_connected(2,4))
-        e.cut(1,4)
+        # e.cut(1,4)
         # print(e.is_connected(2,4))
 
 
@@ -296,4 +296,4 @@ def main():
        
         # for i in range(1,8):
         #     print(str(i)+" : "+str(e.size(i)))
-# main()
+main()
