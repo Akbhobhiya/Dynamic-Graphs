@@ -2,9 +2,9 @@ from Disjoint_sets import DisjointSets
 class Tree:
 
 	def __init__(self):
-		self.ds=DisjointSets()
-		self.nodes=[]
-		self.adj=[]
+		self.ds = DisjointSets()
+		self.nodes = []
+		self.adj = []
 
 	def add_node(self,i):
 		self.nodes.append(self.ds.makeset(i))
@@ -17,34 +17,34 @@ class Tree:
 
 
 	def cut(self,u,v):
-		pa=u
-		child=v
+		pa = u
+		child = v
 		# print(self.nodes[u].par,self.nodes[v])
 
 		if(self.nodes[u].par == self.nodes[v]):
 			# print("S")
-			child=u
-			pa=v
+			child = u
+			pa = v
 		self.adj[pa].remove(child)
 
 		self.adj[child].remove(pa)
-		self.nodes[child].par=self.nodes[child]
-		self.nodes[child].parent=self.nodes[child]
+		self.nodes[child].par = self.nodes[child]
+		self.nodes[child].parent = self.nodes[child]
 
 		# print(self.nodes[child].par,self.nodes[pa].par)
-		l=[child]
-		visited=[0 for _ in range(len(self.nodes))]
-		visited[child]=1
+		l = [child]
+		visited = [0 for _ in range(len(self.nodes))]
+		visited[child] = 1
 		while len(l)>0:
 
-			t=l[-1]
+			t = l[-1]
 			l.pop()
 			for vertices in self.adj[t]:
 				# print("S")
-				if visited[vertices]==1:
+				if visited[vertices] == 1:
 					continue
-				self.nodes[vertices].parent=self.nodes[child]
-				visited[vertices]=1
+				self.nodes[vertices].parent = self.nodes[child]
+				visited[vertices] = 1
 				l.append(vertices)
 
 	def is_connected(self,u,v):
@@ -57,7 +57,7 @@ class Tree:
 		return ""
 
 def main():
-	T=Tree()
+	T = Tree()
 	T.add_node(0)
 	T.add_node(1)
 	T.add_node(2)
