@@ -9,7 +9,7 @@ class Node:
     self.sum_adjacent_nodes=[None,None]
 
   def update(self):
-
+    pass
 
 
 class SplayTree:
@@ -195,5 +195,12 @@ if __name__ == '__main__':
 
   t.delete(a)
   t.delete(m)
+  t.delete(j)
+  t.delete(k)
+  t.delete(a)
+  t.delete(m)
+  t.delete(h)
+  t.delete(l)
+  
 
   t.inorder(t.root)
