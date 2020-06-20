@@ -55,7 +55,7 @@ for k in f:
 def del_edge(e):
 	if e in del_edges:
 		return
-	o.delete_edge(e)
+	o.delete_edge(e[0],e[1])
 
 def rand_edge():
 	e1 = random.randint(1,n+1)
@@ -100,3 +100,74 @@ for i in range(1,n+1):
 			fl+=1
 print(f"Time taken by our implementation - {time.time() - start}")
 print(f"No. of connected and disconnected vertices - {tr} , {fl}")
+
+g_man = []
+dc = Connect()
+def create_g(n):
+	global g_man, dc
+	g_man = [[0]*n for i in range(n)]
+	dc = Connect()
+	for i in range(1,n+1):
+		dc.add_vertex(i)
+
+def insert_e(u,v):
+	global g_man, dc
+	if g_man[u-1][v-1] == 1:
+		print('Edge already exists')
+		return
+	g_man[u-1][v-1] = 1
+	g_man[v-1][u-1] = 1
+	dc.add_edge(u,v)
+
+def del_e(u,v):
+	global g_man, dc
+	if g_man[u-1][v-1] == 0:
+		print('Edge doesn\'t exists')
+		return
+	g_man[u-1][v-1] = 0
+	g_man[v-1][u-1] = 0
+	dc.delete_edge(u,v)
+
+print('Manual testing')
+
+c = 2
+n = 0
+choice_str = '\nEnter choice\n0 - QUIT\n1 - CREATE new Graph\n2 - add edge\n3 - del edge\n4 - is connected\n'
+while c!=0:
+	c = int(input(choice_str))
+
+	if c == 0:
+		exit()
+	elif c == 1:
+		n = int(input('Enter no. of vertices\n'))
+		create_g(n)
+		print(f"Created Graph with {n} vertices")
+
+	elif c == 2:
+		u = int(input('Enter vertex 1 of the edge to be added\n'))
+		v = int(input('Enter vertex 2 of the edge to be added\n'))
+		if u < 1 or u > n or v < 1 or v > n:
+			print("Vertices should be between",1,n)
+			continue
+		insert_e(u,v)
+		print(f"Added edge({u}, {v}) to the graph")
+
+	elif c == 3:
+		u = int(input('Enter vertex 1 of the edge to be deleted\n'))
+		v = int(input('Enter vertex 2 of the edge to be deleted\n'))
+		if u < 1 or u > n or v < 1 or v > n:
+			print("Vertices should be between",1,n)
+			continue
+		del_e(u,v)
+		print(f"Deleted edge({u}, {v}) from the graph")
+
+	elif c == 4:
+		u = int(input('Enter vertex 1 of the edge to check\n'))
+		v = int(input('Enter vertex 2 of the edge to check\n'))
+		if u < 1 or u > n or v < 1 or v > n:
+			print("Vertices should be between",1,n)
+			continue
+		if dc.is_connected(u,v):
+			print(f"Vertices {u} and {v} are connected")
+		else:
+			print(f"Vertices {u} and {v} are not connected")

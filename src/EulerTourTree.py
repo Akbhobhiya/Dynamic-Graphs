@@ -296,4 +296,4 @@ def main():
        
         # for i in range(1,8):
         #     print(str(i)+" : "+str(e.size(i)))
-main()
+# main()
