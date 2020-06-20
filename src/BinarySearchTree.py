@@ -6,9 +6,9 @@ class node:
         self.val=0
         #size of subtree
         self.size=1
-        #[2]  no. of adjacent nodes in graph in fully dynamic-tree(1) and non -tree(0)
+        #no. of adjacent nodes in graph in fully dynamic-tree(1) and non -tree(0)
         self.adjacent_nodes=[0,0] 
-        #[2] sum of adjacent_nodes in subtree
+        #sum of adjacent_nodes in subtree
         self.sum_adjacent_nodes=[0,0] 
         
     def update(self):
@@ -28,6 +28,7 @@ class node:
 
         pass
 
+    #Used to check if BST operations work as intended
     def __str__(self):
         print("\t\tValue:",str(self.val))
         if(self.left):

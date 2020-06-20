@@ -1,11 +1,11 @@
 from BinarySearchTree import BinarySearchTree,node
 class EulerTourTree:
     def __init__(self):
-        #<int,node*>
+        #maps id(number of node) to actual node object
         self.IDtoNode={}
-        #<int,set<node*>>
+        #maps id to set of nodes
         self.NodeSet={}
-        #<pair<int,int>,node*>
+        #maps edges to 1st node of the edge eg (1,2):1
         self.edgemap={}
         #<int,int>
         self.adj_map=[{},{}]
@@ -27,7 +27,7 @@ class EulerTourTree:
         return it
         pass
 
-    #adds the node nn to u 
+    #adds the node nn to the set of nodes
     def __add_node(self,u,nn):
         BinarySearchTree().change_root(nn)
         if(not self.NodeSet.get(u)):
@@ -47,6 +47,7 @@ class EulerTourTree:
         self.edgemap[p]=nn
         pass
 
+    #removes the node from the set 
     def __remove_node(self,u,nn):
         n0=nn.adjacent_nodes[0]
         n1=nn.adjacent_nodes[1]
@@ -66,11 +67,13 @@ class EulerTourTree:
             next.update()
         pass
 
+    #removes the edge from the edgemap
     def __remove_edge(self,u,v):
         p=(u,v)
         del self.edgemap[p]
         pass
-
+    
+    #puts the node in the front of the tree
     def __re_root(self,nn):
         BinarySearchTree().change_root(nn)
         if(not nn.left):
@@ -86,7 +89,7 @@ class EulerTourTree:
         pass
 
 
-
+    #makes an edge between 2 nodes
     def link(self,u,v):
         if(self.is_connected(u,v)):
             return False
@@ -119,7 +122,7 @@ class EulerTourTree:
         pass
 
 
-
+    #removes the edge between 2 nodes
     def cut(self,u,v):
         x=self.__get_edge(u,v)
         if(not x):
@@ -149,42 +152,42 @@ class EulerTourTree:
         pass
 
 
-
+    #checks if the nodes are connected
     def is_connected(self,u,v):
         if(u==v):
             return True
-        # x=self.__get_node(u)
-        # y=self.__get_node(v)
-        # # print()
-        # if(not x or not y):
-        #     return False
-        # # print(x, y)
-        # BinarySearchTree().change_root(x)
-        # BinarySearchTree().change_root(y)
-
-        # while(x.par and x.par!=y):
-        #     BinarySearchTree().rotate(x)
-        # if x.par==y:
-        #     return True
-        # return False
-        if self.NodeSet.get(u)==None or self.NodeSet.get(v)==None:
+        x=self.__get_node(u)
+        y=self.__get_node(v)
+        # print()
+        if(not x or not y):
             return False
-        x1=self.NodeSet[u]
-        y1=self.NodeSet[v]
+        # print(x, y)
+        BinarySearchTree().change_root(x)
+        BinarySearchTree().change_root(y)
 
-        for x in x1:
-            for y in y1:
-                if not x or not y:
-                    continue
-                BinarySearchTree().change_root(x)
-                BinarySearchTree().change_root(y)
-                while(x.par and x.par!=y):
-                    BinarySearchTree().rotate(x)
-                if x.par==y:
-                    return True
-                break
-            break
+        while(x.par and x.par!=y):
+            BinarySearchTree().rotate(x)
+        if x.par==y:
+            return True
         return False
+        # if self.NodeSet.get(u)==None or self.NodeSet.get(v)==None:
+        #     return False
+        # x1=self.NodeSet[u]
+        # y1=self.NodeSet[v]
+
+        # for x in x1:
+        #     for y in y1:
+        #         if not x or not y:
+        #             continue
+        #         BinarySearchTree().change_root(x)
+        #         BinarySearchTree().change_root(y)
+        #         while(x.par and x.par!=y):
+        #             BinarySearchTree().rotate(x)
+        #         if x.par==y:
+        #             return True
+        #         break
+        #     break
+        # return False
 
 
         pass
@@ -245,18 +248,20 @@ def main():
         e.link(2,5)
         e.link(4,6)
         e.link(4,7)
+        
         # e.cut(1,4)
-        for i in range(1,8):
-            print(i,":")
-            for j in e.NodeSet[i]:
-                print("\t",j.val)
+        # for i in range(1,8):
+        #     print(i,":")
+        #     for j in e.NodeSet[i]:
+        #         print("\t",j.val)
         # print(e.is_connected(1,4))
 
         # for i,j in e.edgemap:
         #     print(i,j,':')
 
-        print(e.adj_map)
-            # print(e.edgemap[(i,j)])
+        # print(e.IDtoNode(2).adjacent_nodes[0])
+                # print(e.edgemap[(i,j)])
+        # print(e.adj_map)
         # e.link(2,3);
         # print(e.NodeSet)
         # # e.link(2,3);
@@ -311,4 +316,4 @@ def main():
        
         # for i in range(1,8):
         #     print(str(i)+" : "+str(e.size(i)))
-main()
+# main()

@@ -9,7 +9,7 @@ class Graph:
     def __init__(self): 
         self.adList = defaultdict(list)
         self.vertex=[]
-        self.visited=[None]*1000
+        self.visited=[None]*100000
         self.length=0
 
     # function to add vertex in the graph
