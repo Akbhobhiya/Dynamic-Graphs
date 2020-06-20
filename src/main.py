@@ -75,9 +75,7 @@ fl=0
 print(f"No. of verices in the graph - {n}")
 print(f"No. of edges in the graph - {m}")
 print()
-tr=0
-fl=0
-print('Running is_connected query on all vertices with one another using Eulertour tree method')
+print('Running is_connected query on all vertices with one another using DFS(Naive algorithm)')
 start=time.time()
 for i in range(1,n+1):
 	for j in range(1,n+1):
@@ -85,10 +83,14 @@ for i in range(1,n+1):
 			tr+=1
 		else:
 			fl+=1
-print(f"Time taken by our implementation - {time.time() - start}")
-print(f"No. of connected and disconnected vertices - {tr} , {fl}")
+
+print(f"Time taken by DFS - {time.time() - start}")
+print(f"No. of connected and disconnected vertices - {tr} , {fl}")	
 print()
-print('Running is_connected query on all vertices with one another using DFS(Naive algorithm)')
+
+tr=0
+fl=0
+print('Running is_connected query on all vertices with one another using Eulertour tree method')
 start=time.time()
 for i in range(1,n+1):
 	for j in range(1,n+1):
@@ -96,7 +98,5 @@ for i in range(1,n+1):
 			tr+=1
 		else:
 			fl+=1
-
-print(f"Time taken by DFS - {time.time() - start}")
-print(f"No. of connected and disconnected vertices - {tr} , {fl}")	
-
+print(f"Time taken by our implementation - {time.time() - start}")
+print(f"No. of connected and disconnected vertices - {tr} , {fl}")
