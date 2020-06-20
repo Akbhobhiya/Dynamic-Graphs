@@ -11,14 +11,14 @@ class EulerTourTree:
         self.adj_map=[{},{}]
     
 
-    #return node params:int u
+    #returns the node when the number is given
     def __get_node(self,u):
         if(not self.IDtoNode.get(u)):
             return None
         return self.IDtoNode[u]
         pass
 
-    #return node params:int u int v
+    #returns the edge given 2 nodes
     def __get_edge(self,u,v):
         p=(u,v)
         it=self.edgemap.get(p)
@@ -27,7 +27,7 @@ class EulerTourTree:
         return it
         pass
 
-    #return void params:int u node nn
+    #adds the node nn to u 
     def __add_node(self,u,nn):
         BinarySearchTree().change_root(nn)
         if(not self.NodeSet.get(u)):
@@ -41,7 +41,7 @@ class EulerTourTree:
         nn.update()
         pass
 
-    #return void params:int u int v node nn
+    #add the edge to the edgemap
     def __add_edge(self,u,v,nn):
         p=(u,v)
         self.edgemap[p]=nn
@@ -55,7 +55,6 @@ class EulerTourTree:
           
             del self.IDtoNode[u]
         else:
-            ##TODO replace if possible with a better way to get  1st element of the set
             next=None
             for i in self.NodeSet[u]:
                 next=i
@@ -241,12 +240,28 @@ class EulerTourTree:
 def main():
         e = EulerTourTree();
         e.link(1,2);
-        print(e.NodeSet)
-        e.link(2,3);
-        print(e.NodeSet)
+        e.link(2,3)
+        e.link(1,4)
+        e.link(2,5)
+        e.link(4,6)
+        e.link(4,7)
+        # e.cut(1,4)
+        for i in range(1,8):
+            print(i,":")
+            for j in e.NodeSet[i]:
+                print("\t",j.val)
+        # print(e.is_connected(1,4))
+
+        # for i,j in e.edgemap:
+        #     print(i,j,':')
+
+        print(e.adj_map)
+            # print(e.edgemap[(i,j)])
         # e.link(2,3);
         # print(e.NodeSet)
-        print(e.is_connected(1,3))
+        # # e.link(2,3);
+        # # print(e.NodeSet)
+        # print(e.is_connected(1,3))
         # e.cut(1,2)
         # print(e.NodeSet)
         # print(e.is_connected(2,3))

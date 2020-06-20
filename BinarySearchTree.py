@@ -3,15 +3,11 @@ class node:
         self.left=None
         self.right=None
         self.par=None
-
         self.val=0
-        
         #size of subtree
         self.size=1
-        
         #[2]  no. of adjacent nodes in graph in fully dynamic-tree(1) and non -tree(0)
         self.adjacent_nodes=[0,0] 
-
         #[2] sum of adjacent_nodes in subtree
         self.sum_adjacent_nodes=[0,0] 
         
@@ -33,10 +29,22 @@ class node:
         pass
 
     def __str__(self):
-        print("Value:",str(self.val))
-        print("Left:",str(self.left))
-        print("Right:",str(self.right))
-        print("Parent:",str(self.par))
+        print("\t\tValue:",str(self.val))
+        if(self.left):
+            print("Left:",str(self.left.val))
+        else:
+            print("Left: None")
+        if(self.right):
+            print("\t\t\t\tRight:",str(self.right.val))
+        else:
+            print("Right:None")
+        if(self.par):
+            print("\t\tParent:",str(self.par.val))
+        else:
+            print("No parent")
+        print("\n\n")
+        
+        return ""
 
         
 
@@ -91,7 +99,6 @@ class BinarySearchTree:
         nn.update()
         pass
 
-    #node nn
     def rotate(self,nn):
         p=nn.par
         if(not p):
@@ -102,7 +109,7 @@ class BinarySearchTree:
             self.__rotate_left(nn)
         pass
     
-    #node nn
+    #breaks all edges of the node
     def delete_node(self,nn):
         self.change_root(nn)
         l=nn.left
@@ -123,7 +130,7 @@ class BinarySearchTree:
 
         pass
 
-    #node nn
+    #changes the root by rotations
     def change_root(self,nn):
         if(not nn):
             return
@@ -135,19 +142,15 @@ class BinarySearchTree:
             if(not gp):
                 self.rotate(nn)
                 break
-            if((nn==p.left) == (p==gp.left)):
-                #left-left
+            if((nn==p.left) == (p==gp.left)): #left-left or right-right
                 self.rotate(p)
-                #right-right  
                 self.rotate(nn)
             else:
-                #zig-zig
                 self.rotate(nn)
-                self.rotate(nn)
-                
+                self.rotate(nn)    
         pass
 
-    #node nn
+    #breaks edge between parent and child
     def remove_child(self,nn):
         p=nn.par
         if(not p):
@@ -161,9 +164,8 @@ class BinarySearchTree:
         p.update()
         pass
 
-    #node nn
     
-
+    #makes the leftmost node as root
     def leftmost(self,nn):
         self.change_root(nn)
         while(nn.left):
@@ -172,7 +174,7 @@ class BinarySearchTree:
         return nn
         pass
 
-    #node nn
+    #nmakes the rightmost node as root
     def rightmost(self,nn):
         self.change_root(nn)
         while(nn.right):
@@ -181,7 +183,7 @@ class BinarySearchTree:
         return nn
         pass
 
-    #node nn
+    #makes the next in seq element as root
     def next_in_seq(self,nn):
         self.change_root(nn)
         nn=nn.right
@@ -193,7 +195,7 @@ class BinarySearchTree:
         return nn
         pass
 
-    #node nn
+    #puts a duplicate node at the rightmost of the subtree rooted at nn and makes it the root
     def insert_new(self,nn):
         if(not nn):
             return node()
@@ -214,7 +216,6 @@ class BinarySearchTree:
 
         pass
 
-    #static functions
-    #node nn
+
 
 
