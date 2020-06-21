@@ -3,7 +3,7 @@ from connectivity import Connect
 from connectivity_by_dfs import Graph
 from EulerTourTree import EulerTourTree
 import random
-f=open('graph_input2.txt','r')
+f=open('graph_input.txt','r')
 
 k = f.readline()
 l=k.split()
@@ -38,8 +38,8 @@ for k in f:
 
 	
 # print(o.delete_edge(58,15))
-# o.delete_edge(58,15)
-# g.delete_edge(58,15)
+o.delete_edge(58,15)
+g.delete_edge(58,15)
 # o.delete_edge(6,10)
 # g.delete_edge(6,10)
 # o.delete_edge(52,27)
@@ -52,12 +52,16 @@ for k in f:
 # o.delete_edge(81,9)
 # g.delete_edge(81,9)
 
+del_edges = set()
+
 def del_edge(e):
+	global del_edges
 	if e in del_edges:
 		return
 	o.delete_edge(e[0],e[1])
+	g.delete_edge(e[0],e[1])
 
-def rand_edge():
+def del_rand_edge():
 	e1 = random.randint(1,n+1)
 	e2 = random.randint(1,n+1)
 	while e1 == e2:
@@ -67,12 +71,17 @@ def rand_edge():
 
 # o.is_connected(2,99)
 
+for i in range(m//10):
+	del_rand_edge()
+
 
 import time	
 tr=0
 fl=0
 
-print(f"No. of verices in the graph - {n}")
+print(f"Graph is present in graph_input.txt file, first line contains no.of vertices no.of edges. Following lines contain the edges")
+print(f"WE ARE DELETING {m//10} RANDOM EDGES TO PROVE THE CORRECTNESS OF OUR IMPLEMENTATION.\nSO RESULTS WILL BE VARIED EVERYTIME THE PROGRAM RUNS")
+print(f"\nNo. of verices in the graph - {n}")
 print(f"No. of edges in the graph - {m}")
 print()
 print('Running is_connected query on all vertices with one another using DFS(Naive algorithm)')
@@ -84,7 +93,7 @@ for i in range(1,n+1):
 		else:
 			fl+=1
 
-print(f"Time taken by DFS - {time.time() - start}")
+print(f"Time taken by DFS - {time.time() - start} seconds")
 print(f"No. of connected and disconnected vertices - {tr} , {fl}")	
 print()
 
@@ -98,7 +107,7 @@ for i in range(1,n+1):
 			tr+=1
 		else:
 			fl+=1
-print(f"Time taken by our implementation - {time.time() - start}")
+print(f"Time taken by our implementation - {time.time() - start} seconds")
 print(f"No. of connected and disconnected vertices - {tr} , {fl}")
 
 g_man = []
@@ -128,7 +137,7 @@ def del_e(u,v):
 	g_man[v-1][u-1] = 0
 	dc.delete_edge(u,v)
 
-print('Manual testing')
+print('\nMANUAL TESTING')
 
 c = 2
 n = 0
